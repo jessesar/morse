@@ -1,0 +1,71 @@
+.crd {
+  width: auto;
+    border: 3px solid grey;
+    padding: 25px;
+    margin: 25px;
+}
+
+h5 {
+    margin-bottom: 3vw;
+}
+
+.play {
+    width: 10%;
+    margin-bottom: 1vw;
+    margin-right: 1vw;
+}
+.word {
+    width: 15%;
+    margin-bottom: 1vw;
+    margin-right: 1vw;
+}
+/* Footer */
+.ftr {
+    width: 100%;
+    height: 5vh;
+    bottom: 0%;
+}
+
+.tx{
+    color: white;
+    padding-top: 1vh;
+}
+
+/* Black input area */
+.input-field textarea:focus + label {
+    color: black !important;
+  }
+  
+  .row .input-field textarea:focus {
+    border-bottom: 1px solid black !important;
+    box-shadow: 0 1px 0 0 black !important
+  }
+
+/* Blue switch */
+.switch label input[type=checkbox]:checked+.lever {
+    background-color: #7ba7d4;
+  }
+  
+  .switch label input[type=checkbox]:checked+.lever:after {
+    background-color: #1976d2;
+  }
+
+/* Slider */
+
+input[type=range]::-webkit-slider-thumb {
+    background-color: #1976d2;
+  }
+  input[type=range]::-moz-range-thumb {
+    background-color: #1976d2;
+  }
+  input[type=range]::-ms-thumb {
+    background-color: #1976d2;
+  }
+
+  /***** These are to edit the thumb and the text inside the thumb *****/
+  input[type=range] + .thumb {
+    background-color: #dedede;
+  }
+  input[type=range] + .thumb.active .value {
+    color: #1976d2;
+  }
