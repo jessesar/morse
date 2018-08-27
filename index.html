@@ -269,6 +269,18 @@
                 show_answers: false
             },
             
+            watch: {
+                high_pitch: function() {
+                    if(app.high_pitch) {
+                        sound_l.volume = 0
+                        sound = sound_h
+                    } else {
+                        sound_h.volume = 0
+                        sound = sound_l
+                    }
+                }
+            },
+            
             methods: {
                 playLetter: function (l, cb) {
                     if(app.high_pitch) {
@@ -285,7 +297,7 @@
                 },
         
                 playSequence: function (ls, cb) {
-                    if (ls.length) {
+                    /*if (ls.length) {
                         
                         app.playLetter(ls[0], function () {
                             
@@ -300,7 +312,12 @@
                         })
                     } else {
                         if(cb) cb()
-                    }
+                    }*/
+                    
+                    playMorse(ls.map(function(c) {
+                        c = c.toUpperCase()
+                        return index[c]
+                    }).join(' '), cb)
                 },
         
                 playText: function (t, cb) {
@@ -341,7 +358,7 @@
                     
                     app.playText(word, function() {
                         if(app.practice_status == 'running') {
-                            setTimeout(app.nextPracticeWord, 1000)
+                            setTimeout(app.nextPracticeWord, 2500)
                         }
                     })
                 }
@@ -368,6 +385,100 @@
                 text += possible.charAt(Math.floor(Math.random() * possible.length));
 
             return text;
+        }
+        
+        var index = {
+            'A': '.-',
+            'B': '-...',
+            'C': '-.-.',
+            'D': '-..',
+            'E': '.',
+            'F': '..-.',
+            'G': '--.',
+            'H': '....',
+            'I': '..',
+            'J': '.---',
+            'K': '-.-',
+            'L': '.-..',
+            'M': '--',
+            'N': '-.',
+            'O': '---',
+            'P': '.--.',
+            'Q': '--.-',
+            'R': '.-.',
+            'S': '...',
+            'T': '-',
+            'U': '..-',
+            'V': '...-',
+            'W': '.--',
+            'X': '-..-',
+            'Y': '-.--',
+            'Z': '--..'
+        }
+        
+        var sound_l = $('<audio />').attr('src', 'sounds/low.mp3')[0];
+        sound_l.volume = 0
+        sound_l.play()
+        sound_l.loop = true
+        
+        var sound_h = $('<audio />').attr('src', 'sounds/high.mp3')[0];
+        sound_h.volume = 0
+        sound_h.play()
+        sound_h.loop = true
+        
+        var sound = sound_l
+        
+        var dot = function(cb) {
+            sound.volume = 0;
+            sound.volume = 1;
+            
+            setTimeout(function() {
+                sound.volume = 0
+                
+                cb()
+            }, 150)
+        }
+        
+        var dash = function(cb) {
+            sound.volume = 0;
+            sound.volume = 1;
+            
+            setTimeout(function() {
+                sound.volume = 0
+                
+                cb()
+            }, 440)
+        }
+        
+        var playMorse = function(s, cb) {
+            if(s.length == 0 && cb) {
+                cb()
+            } else {
+                var c = s[0];
+                var rest = s.slice(1)
+                
+                if(c == '.') {
+                    dot(function() {
+                        setTimeout(function() {
+                            playMorse(rest, cb)
+                        }, 120)
+                    })
+                }
+                
+                if(c == '-') {
+                    dash(function() {
+                        setTimeout(function() {
+                            playMorse(rest, cb)
+                        }, 120)
+                    })
+                }
+                
+                if(c == ' ') {
+                    setTimeout(function() {
+                        playMorse(rest, cb)
+                    }, 1100)
+                }
+            }
         }
     </script>
 </body>
