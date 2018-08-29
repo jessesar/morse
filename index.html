@@ -262,12 +262,18 @@
     <script type="text/javascript" src="js/materialize.min.js"></script>
 
     <script src="js/vue.js"></script>
+    <script src="js/morse.js"></script>
 
     <script>
-        var sound_l = $('<audio />').attr('src', 'sounds/low.wav')[0];
-        var sound_h = $('<audio />').attr('src', 'sounds/high.wav')[0];
+        var BUFFERS = {}
+
+        loadSound('low.wav', function(s) {
+            BUFFERS['low'] = s
+        })
         
-        var sound;
+        loadSound('high.wav', function(s) {
+            BUFFERS['high'] = s
+        })
         
         var app = new Vue({
             el: '#app',
@@ -289,11 +295,9 @@
             watch: {
                 high_pitch: function() {
                     if(app.high_pitch) {
-                        sound_l.volume = 0
-                        sound = sound_h
+                        Morse.source.buffer = BUFFERS.high
                     } else {
-                        sound_h.volume = 0
-                        sound = sound_l
+                        Morse.source.buffer = BUFFERS.low
                     }
                 }
             },
@@ -302,15 +306,8 @@
                 startApp: function() {
                     app.started = true
                     
-                    sound_l.volume = 0
-                    sound_l.play()
-                    sound_l.loop = true
-                    
-                    sound_h.volume = 0
-                    sound_h.play()
-                    sound_h.loop = true
-                    
-                    sound = sound_l
+                    Morse.play()
+                    Morse.changeVolume(0)
                     
                     Vue.nextTick(function() {
                         $('.collapsible').collapsible();
@@ -451,22 +448,22 @@
         }
         
         var dot = function(cb) {
-            sound.volume = 0;
-            sound.volume = 1;
+            Morse.changeVolume(0)
+            Morse.changeVolume(1)
             
             setTimeout(function() {
-                sound.volume = 0
+                Morse.changeVolume(0)
                 
                 cb()
             }, 150)
         }
         
         var dash = function(cb) {
-            sound.volume = 0;
-            sound.volume = 1;
+            Morse.changeVolume(0)
+            Morse.changeVolume(1)
             
             setTimeout(function() {
-                sound.volume = 0
+                Morse.changeVolume(0)
                 
                 cb()
             }, 440)
