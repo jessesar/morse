@@ -267,8 +267,6 @@
         var sound_l = $('<audio />').attr('src', 'sounds/low.wav')[0];
         var sound_h = $('<audio />').attr('src', 'sounds/high.wav')[0];
         
-        var sound;
-        
         var app = new Vue({
             el: '#app',
             data: {
@@ -310,7 +308,7 @@
                     sound_h.play()
                     sound_h.loop = true
                     
-                    sound = sound_l
+                    var sound = sound_l
                     
                     Vue.nextTick(function() {
                         $('.collapsible').collapsible();
