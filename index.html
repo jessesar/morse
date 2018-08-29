@@ -289,14 +289,10 @@
             watch: {
                 high_pitch: function() {
                     if(app.high_pitch) {
-                        //sound_l.volume = 0
-                        sound_l.pause()
-                        
+                        sound_l.volume = 0
                         sound = sound_h
                     } else {
-                        //sound_h.volume = 0
-                        sound_h.pause()
-                        
+                        sound_h.volume = 0
                         sound = sound_l
                     }
                 }
@@ -306,16 +302,12 @@
                 startApp: function() {
                     app.started = true
                     
-                    //sound_l.volume = 0
+                    sound_l.volume = 0
                     sound_l.play()
-                    sound_l.pause()
-                    
                     sound_l.loop = true
                     
-                    //sound_h.volume = 0
+                    sound_h.volume = 0
                     sound_h.play()
-                    sound_h.pause()
-                    
                     sound_h.loop = true
                     
                     sound = sound_l
@@ -459,30 +451,22 @@
         }
         
         var dot = function(cb) {
-            //sound.volume = 0;
-            sound.pause()
-            
-            //sound.volume = 1;
-            sound.play()
+            sound.volume = 0;
+            sound.volume = 1;
             
             setTimeout(function() {
-                //sound.volume = 0
-                sound.pause()
+                sound.volume = 0
                 
                 cb()
             }, 150)
         }
         
         var dash = function(cb) {
-            //sound.volume = 0;
-            sound.pause()
-            
-            //sound.volume = 1;
-            sound.play()
+            sound.volume = 0;
+            sound.volume = 1;
             
             setTimeout(function() {
-                //sound.volume = 0
-                sound.pause()
+                sound.volume = 0
                 
                 cb()
             }, 440)
