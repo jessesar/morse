@@ -33,10 +33,6 @@ h5 {
     padding-bottom: 1vh;
 }
 
-.stop-btn {
-    margin-left: 10px;
-}
-
 /* Black input area */
 .input-field textarea:focus + label {
     color: black !important;
@@ -64,5 +60,5 @@ h5 {
   border: 2px solid #1976d2 !important;
 }
 .pd {
-  padding-right:1.3em
+  padding-right:2em
 }

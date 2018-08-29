@@ -31,15 +31,15 @@
         </h2>
         <div class="center">
             <p>
-                <input type="radio" name="wpm" id="3wpm" value="3" v-model="wpm">
+                <input type="radio" name="wpm" id="3wpm">
                 <label for="3wpm" class="pd">3 WPM</label>
-                <input type="radio" name="wpm" value="4" v-model="wpm" id="4wpm">
+                <input type="radio" name="wpm" id="4wpm">
                 <label for="4wpm" class="pd">4 WPM</label>
-                <input type="radio" name="wpm" value="5" v-model="wpm" id="5wpm" checked>
+                <input type="radio" name="wpm" id="5wpm" checked>
                 <label for="5wpm" class="pd">5 WPM</label>
-                <input type="radio" name="wpm" value="6" v-model="wpm" id="6wpm">
+                <input type="radio" name="wpm" id="6wpm">
                 <label for="6wpm" class="pd">6 WPM</label>
-                <input type="radio" name="wpm" value="7" v-model="wpm" id="7wpm">
+                <input type="radio" name="wpm" id="7wpm">
                 <label for="7wpm">7 WPM</label>
             </p>
         </div>
@@ -48,7 +48,7 @@
 
             <div class="col offset-l3 l6 offset-m2 m8 offset-s0 s12">
                 <ul class="collapsible popout">
-                    <li id="individual">
+                    <li>
                         <div class="collapsible-header"><i class="material-icons">text_format</i>Individual Letters</div>
                         <div class="collapsible-body">
                             <a class="play btn blue darken-2 waves-effect waves-blue">A</a>
@@ -104,20 +104,20 @@
                             <a class="play btn blue darken-2 waves-effect waves-blue">Z</a>
                         </div>
                     </li>
-                    <li id="practice">
+                    <li>
                         <div class="collapsible-header"><i class="material-icons">timer</i>Practice</div>
                         <div class="collapsible-body">
-                            <div class="center" v-if="practice_status != 'running' && practice_status != 'paused'">
+                            <div class="center">
                                 <p>
-                                    <input type="radio" class="with-gap" name="letters" value="EISHTMO" id="1">
+                                    <input type="radio" class="with-gap" name="letters" id="1">
                                     <label for="1" class="pd">E I S H T M O</label>
-                                    <input type="radio" class="with-gap" name="letters" value="AWJNDB" id="2">
+                                    <input type="radio" class="with-gap" name="letters" id="2">
                                     <label for="2" class="pd">A W J N D B</label>
-                                    <input type="radio" class="with-gap" name="letters" value="UVGRP" id="3" checked>
+                                    <input type="radio" class="with-gap" name="letters" id="3" checked>
                                     <label for="3" class="pd">U V G R P</label>
-                                    <input type="radio" class="with-gap" name="letters" value="KLFC" id="4">
+                                    <input type="radio" class="with-gap" name="letters" id="4">
                                     <label for="4" class="pd">K L F C</label>
-                                    <input type="radio" class="with-gap" name="letters" value="QXYZ" id="5">
+                                    <input type="radio" class="with-gap" name="letters" id="5">
                                     <label for="5">Q X Y Z</label>
                                 </p>
                             </div>
@@ -130,18 +130,14 @@
                                 {{ countdown }}...
                             </h4>
 
-                            <div v-if="practice_status == 'running' || practice_status == 'paused' || practice_status == 'ended'">
+                            <div v-if="practice_status == 'running' || practice_status == 'paused'">
                                 <a class="word waves-effect waves-light btn btn-large blue darken-2" v-for="word in practice_words" @click="playText(word)">
                                     <template v-if="show_answers">{{ word }}</template>
                                     <template v-else>?</template>
                                 </a>
                             </div>
-                            
-                            <a class="waves-effect waves-light btn btn-small red darken-2 right stop-btn" @click="stopPractice" v-if="practice_status == 'running' || practice_status == 'paused'">Stop</a>
-                            <a class="waves-effect waves-light btn btn-small green darken-2 right" @click="stopPractice('practice')" v-if="practice_status == 'ended'">Restart</a>
-                            <a class="waves-effect waves-light btn btn-small orange darken-2 right" @click="pausePractice" v-if="practice_status == 'running'">Pause</a>
+                            <a class="waves-effect waves-light btn btn-small red darken-2 right" @click="pausePractice" v-if="practice_status == 'running'">Stop</a>
                             <a class="waves-effect waves-light btn btn-small green darken-2 right" @click="resumePractice" v-if="practice_status == 'paused'">Resume</a>
-                            
                             <div class="row">
                                 <div class="switch">
                                     <label>
@@ -154,30 +150,26 @@
 
                         </div>
                     </li>
-                    <li id="exam">
+                    <li>
                         <div class="collapsible-header"><i class="material-icons">play_arrow</i>Exam Training</div>
                         <div class="collapsible-body">
 
                             <div class="center" v-if="!practice_status">
-                                <a class="waves-effect waves-light btn btn-large blue darken-2" @click="startExam">Start</a>
+                                <a class="waves-effect waves-light btn btn-large blue darken-2" @click="startPractice">Start</a>
                             </div>
 
                             <h4 v-if="practice_status == 'starting'" class="center">
                                 {{ countdown }}...
                             </h4>
 
-                            <div v-if="practice_status == 'running' || practice_status == 'paused' || practice_status == 'ended'">
+                            <div v-if="practice_status == 'running' || practice_status == 'paused'">
                                 <a class="word waves-effect waves-light btn btn-large blue darken-2" v-for="word in practice_words" @click="playText(word)">
                                     <template v-if="show_answers">{{ word }}</template>
                                     <template v-else>?</template>
                                 </a>
                             </div>
-                            
-                            <a class="waves-effect waves-light btn btn-small red darken-2 right stop-btn" @click="stopPractice" v-if="practice_status == 'running' || practice_status == 'paused'">Stop</a>
-                            <a class="waves-effect waves-light btn btn-small green darken-2 right" @click="stopPractice('exam')" v-if="practice_status == 'ended'">Restart</a>
-                            <a class="waves-effect waves-light btn btn-small orange darken-2 right" @click="pausePractice" v-if="practice_status == 'running'">Pause</a>
+                            <a class="waves-effect waves-light btn btn-small red darken-2 right" @click="pausePractice" v-if="practice_status == 'running'">Stop</a>
                             <a class="waves-effect waves-light btn btn-small green darken-2 right" @click="resumePractice" v-if="practice_status == 'paused'">Resume</a>
-                            
                             <div class="row">
                                 <div class="switch">
                                     <label>
@@ -192,7 +184,7 @@
 
                         </div>
                     </li>
-                    <li id="convert">
+                    <li>
                         <div class="collapsible-header"><i class="material-icons">compare_arrows</i>Convert Raw Text</div>
                         <div class="collapsible-body">
 
@@ -225,124 +217,69 @@
     <script type="text/javascript" src="js/materialize.min.js"></script>
 
     <script src="js/vue.js"></script>
-    <script src="js/morse.js"></script>
 
     <script>
-        $(document).ready(function() {
-            $('.collapsible').collapsible({
-                onOpen: function(el) {
-                    if((app.current_mode == 'practice' || app.current_mode == 'exam') && el.attr('id') != app.current_mode) {
-                        // Stop practice
-                        app.stopPractice()
-                    }
-                    
-                    app.current_mode = el.attr('id')
-                }
-            });
-    
-            $('.play').on('click', function () {
-                app.playLetter($(this).text())
-            })
-    
-            $('#play-raw').on('click', function () {
-                app.playText($('#raw-text').val())
-            })
-        });
-        
-        var BUFFERS = {}
+        var sound_l = $('<audio />').attr('src', 'sounds/low.wav')[0];
+        var sound_h = $('<audio />').attr('src', 'sounds/high.wav')[0];
 
-        var low_loaded = false
-        loadSound('sounds/low.wav', function(s) {
-            BUFFERS['low'] = s
-            
-            low_loaded = true
-            
-            if(high_loaded && low_loaded) {
-                //app.startApp()
-            }
-        })
-        
-        var high_loaded = false
-        loadSound('sounds/high.wav', function(s) {
-            BUFFERS['high'] = s
-            
-            high_loaded = true
-            
-            if(high_loaded && low_loaded) {
-                //app.startApp()
-            }
-        })
-        
+        var sound;
+
         var app = new Vue({
             el: '#app',
             data: {
                 high_pitch: false,
-                
+
                 practice_status: null,
-                practice_timeout: null,
+                practice_interval: null,
                 practice_words: [],
-                
-                morse_timeout: null,
-                dot_dash_timeout: null,
-                
+
                 countdown: 3,
                 countdown_interval: null,
-                
+
                 show_answers: false,
-                
-                started: false,
-                
-                practice_letters: null,
-                number_of_practice_words: null,
-                current_practice_word: 0,
-                
-                current_mode: null,
-                
-                wpm: 5
+
+                started: false
             },
-            
+
             watch: {
-                high_pitch: function() {
-                    if(app.high_pitch) {
-                        Morse.source.buffer = BUFFERS.high
+                high_pitch: function () {
+                    if (app.high_pitch) {
+                        sound_l.volume = 0
+                        sound = sound_h
                     } else {
-                        Morse.source.buffer = BUFFERS.low
+                        sound_h.volume = 0
+                        sound = sound_l
                     }
                 }
             },
-            
-            computed: {
-                wpm_factor: function() {
-                    if(app.wpm == '3') {
-                        return 4.3
-                    }
-                    
-                    if(app.wpm == '4') {
-                        return 2.7
-                    }
-                    
-                    if(app.wpm == '5') {
-                        return 1.9
-                    }
-                    
-                    if(app.wpm == '6') {
-                        return 1.3
-                    }
-                    
-                    if(app.wpm == '7') {
-                        return 0.95
-                    }
-                }
-            },
-            
+
             methods: {
-                startApp: function() {
+                startApp: function () {
                     app.started = true
-                    
-                    Morse.play()
-                    Morse.changeVolume(0)
+
+                    sound_l.volume = 0
+                    sound_l.play()
+                    sound_l.loop = true
+
+                    sound_h.volume = 0
+                    sound_h.play()
+                    sound_h.loop = true
+
+                    sound = sound_l
+
+                    Vue.nextTick(function () {
+                        $('.collapsible').collapsible();
+
+                        $('.play').on('click', function () {
+                            app.playLetter($(this).text())
+                        })
+
+                        $('#play-raw').on('click', function () {
+                            app.playText($('#raw-text').val())
+                        })
+                    })
                 },
-                
+
                 playLetter: function (l, cb) {
                     /*if(app.high_pitch) {
                         var pitch = 'h';
@@ -355,11 +292,11 @@
                     sound.play();
         
                     if (cb) $(sound).on('ended', cb)*/
-                    
+
                     var l = l.toUpperCase()
                     playMorse(index[l])
                 },
-        
+
                 playSequence: function (ls, cb) {
                     /*if (ls.length) {
                         
@@ -377,132 +314,68 @@
                     } else {
                         if(cb) cb()
                     }*/
-                    
-                    playMorse(ls.map(function(c) {
+
+                    playMorse(ls.map(function (c) {
                         c = c.toUpperCase()
                         return index[c]
                     }).join(' '), cb)
                 },
-        
+
                 playText: function (t, cb) {
                     var i = 0
-        
+
                     var letters = t.split('')
                     app.playSequence(letters, cb)
                 },
-                
-                startPractice: function() {
-                    app.practice_letters = $('input[name="letters"]:checked').val()
-                    app.number_of_practice_words = 10
-                    app.current_practice_word = 0
-                    
-                    app.practice()
-                },
-                
-                startExam: function() {
-                    app.practice_letters = null
-                    app.number_of_practice_words = 20
-                    app.current_practice_word = 0
-                    
-                    app.practice()
-                },
-                
-                practice: function() {
+
+                startPractice: function () {
                     app.practice_status = 'starting'
-                    
-                    app.countdown_interval = setInterval(function() {
+
+                    app.countdown_interval = setInterval(function () {
                         app.countdown -= 1
-                        
-                        if(app.countdown == 0) {
+
+                        if (app.countdown == 0) {
                             clearInterval(app.countdown_interval)
-                            
+
                             app.resumePractice()
                         }
                     }, 1000)
                 },
-                
-                pausePractice: function() {
+
+                pausePractice: function () {
                     app.practice_status = 'paused'
-                    
-                    app.stopAll()
                 },
-                
-                stopPractice: function(restart) {
-                    app.practice_status = null
-                    app.practice_words = []
-                    
-                    app.countdown = 3
-                    
-                    app.stopAll()
-                    
-                    if(restart) {
-                        app.show_answers = false
-                        
-                        if(restart == 'exam') {
-                            app.startExam()
-                        }
-                        
-                        if(restart == 'practice') {
-                            app.startPractice()
-                        }
-                    }
-                },
-                
-                practiceEnded: function() {
-                    app.practice_status = 'ended'
-                    app.stopAll()
-                    
-                    app.show_answers = true
-                },
-                
-                stopAll: function() {
-                    Morse.changeVolume(0)
-                    clearTimeout(app.dot_dash_timeout)
-                    clearTimeout(app.morse_timeout)
-                    clearTimeout(app.practice_timeout)
-                },
-                
-                resumePractice: function() {
+
+                resumePractice: function () {
                     app.practice_status = 'running'
-                    
+
                     app.nextPracticeWord()
                 },
-                
-                nextPracticeWord: function(cb) {
-                    app.current_practice_word += 1
-                    
-                    if(app.current_practice_word <= app.number_of_practice_words) {
-                        var word = generateSequence(3)
-                        
-                        app.practice_words.push(word)
-                        
-                        app.playText(word, function() {
-                            if(app.practice_status == 'running') {
-                                app.practice_timeout = setTimeout(app.nextPracticeWord, 2800 * app.wpm_factor)
-                            }
-                        })
-                    } else {
-                        app.practiceEnded()
-                    }
+
+                nextPracticeWord: function (cb) {
+                    var word = generateSequence(3)
+
+                    app.practice_words.push(word)
+
+                    app.playText(word, function () {
+                        if (app.practice_status == 'running') {
+                            setTimeout(app.nextPracticeWord, 2800)
+                        }
+                    })
                 }
             }
         })
-        
+
         function generateSequence(l) {
             var text = "";
-            
-            if(!app.practice_letters) {
-                var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-            } else {
-                var possible = app.practice_letters
-            }
+            var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
             for (var i = 0; i < l; i++)
                 text += possible.charAt(Math.floor(Math.random() * possible.length));
 
             return text;
         }
-        
+
         var index = {
             'A': '.-',
             'B': '-...',
@@ -531,60 +404,56 @@
             'Y': '-.--',
             'Z': '--..'
         }
-        
-        var dot = function(cb) {
-            Morse.changeVolume(0)
-            Morse.changeVolume(1)
-            
-            app.dot_dash_timeout = setTimeout(function() {
-                Morse.changeVolume(0)
-                
+
+        var dot = function (cb) {
+            sound.volume = 0;
+            sound.volume = 1;
+
+            setTimeout(function () {
+                sound.volume = 0
+
                 cb()
             }, 150)
         }
-        
-        var dash = function(cb) {
-            Morse.changeVolume(0)
-            Morse.changeVolume(1)
-            
-            app.dot_dash_timeout = setTimeout(function() {
-                Morse.changeVolume(0)
-                
+
+        var dash = function (cb) {
+            sound.volume = 0;
+            sound.volume = 1;
+
+            setTimeout(function () {
+                sound.volume = 0
+
                 cb()
             }, 440)
         }
-        
-        var playMorse = function(s, cb) {
-            if(!app.started) {
-                app.startApp()
-            }
-            
-            if(s.length == 0 && cb) {
+
+        var playMorse = function (s, cb) {
+            if (s.length == 0 && cb) {
                 cb()
             } else {
                 var c = s[0];
                 var rest = s.slice(1)
-                
-                if(c == '.') {
-                    dot(function() {
-                        app.morse_timeout = setTimeout(function() {
+
+                if (c == '.') {
+                    dot(function () {
+                        setTimeout(function () {
                             playMorse(rest, cb)
                         }, 120)
                     })
                 }
-                
-                if(c == '-') {
-                    dash(function() {
-                        app.morse_timeout = setTimeout(function() {
+
+                if (c == '-') {
+                    dash(function () {
+                        setTimeout(function () {
                             playMorse(rest, cb)
                         }, 120)
                     })
                 }
-                
-                if(c == ' ') {
-                    app.morse_timeout = setTimeout(function() {
+
+                if (c == ' ') {
+                    setTimeout(function () {
                         playMorse(rest, cb)
-                    }, 850 * app.wpm_factor)
+                    }, 850)
                 }
             }
         }
