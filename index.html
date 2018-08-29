@@ -267,6 +267,8 @@
         var sound_l = $('<audio />').attr('src', 'sounds/low.wav')[0];
         var sound_h = $('<audio />').attr('src', 'sounds/high.wav')[0];
         
+        var sound;
+        
         var app = new Vue({
             el: '#app',
             data: {
@@ -288,9 +290,13 @@
                 high_pitch: function() {
                     if(app.high_pitch) {
                         sound_l.volume = 0
+                        sound_h.muted = true
+                        
                         sound = sound_h
                     } else {
                         sound_h.volume = 0
+                        sound_h.muted = true
+                        
                         sound = sound_l
                     }
                 }
@@ -301,14 +307,18 @@
                     app.started = true
                     
                     sound_l.volume = 0
+                    sound_l.muted = true
+                    
                     sound_l.play()
                     sound_l.loop = true
                     
                     sound_h.volume = 0
+                    sound_h.muted = true
+                    
                     sound_h.play()
                     sound_h.loop = true
                     
-                    var sound = sound_l
+                    sound = sound_l
                     
                     Vue.nextTick(function() {
                         $('.collapsible').collapsible();
@@ -450,10 +460,14 @@
         
         var dot = function(cb) {
             sound.volume = 0;
+            sound.muted = true
+            
             sound.volume = 1;
+            sound.muted = false
             
             setTimeout(function() {
                 sound.volume = 0
+                sound.muted = true
                 
                 cb()
             }, 150)
@@ -461,10 +475,14 @@
         
         var dash = function(cb) {
             sound.volume = 0;
+            sound.muted = true
+            
             sound.volume = 1;
+            sound.muted = false
             
             setTimeout(function() {
                 sound.volume = 0
+                sount.muted = true
                 
                 cb()
             }, 440)
