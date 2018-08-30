@@ -27,21 +27,38 @@ Morse.play = function() {
   if (!context.createGain)
     context.createGain = context.createGainNode;
   this.gainNode = context.createGain();
-  var source = context.createBufferSource();
-  source.buffer = BUFFERS.low;
+  
+  var low_source = context.createBufferSource();
+  low_source.buffer = BUFFERS.low;
 
-  // Connect source to a gain node
-  source.connect(this.gainNode);
-  // Connect gain node to destination
+  low_source.loop = true;
+  low_source.start(0);
+  
+  var high_source = context.createBufferSource();
+  high_source.buffer = BUFFERS.high;
+
+  high_source.loop = true;
+  high_source.start(0);
+  
+  this.low_source = low_source;
+  this.high_source = high_source
+  
+  low_source.connect(this.gainNode);
   this.gainNode.connect(context.destination);
-  // Start playback in a loop
-  source.loop = true;
-  if (!source.start)
-    source.start = source.noteOn;
-  source.start(0);
-  this.source = source;
 };
 
 Morse.changeVolume = function(element) {
   this.gainNode.gain.value = element
 };
+
+Morse.changePitch = function(pitch) {
+    if(pitch == 'low') {
+        this.high_source.disconnect(this.gainNode);
+        this.low_source.connect(this.gainNode);
+    }
+    
+    if(pitch == 'high') {
+        this.low_source.disconnect(this.gainNode);
+        this.high_source.connect(this.gainNode);
+    }
+}

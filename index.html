@@ -304,9 +304,9 @@
             watch: {
                 high_pitch: function() {
                     if(app.high_pitch) {
-                        Morse.source.buffer = BUFFERS.high
+                        Morse.changePitch('high')
                     } else {
-                        Morse.source.buffer = BUFFERS.low
+                        Morse.changePitch('low')
                     }
                 }
             },
@@ -410,6 +410,8 @@
                 practice: function() {
                     app.practice_status = 'starting'
                     
+                    playMorse('-.-.-')
+                
                     app.countdown_interval = setInterval(function() {
                         app.countdown -= 1
                         
@@ -418,7 +420,7 @@
                             
                             app.resumePractice()
                         }
-                    }, 1000)
+                    }, 1200)
                 },
                 
                 pausePractice: function() {
@@ -449,8 +451,11 @@
                 },
                 
                 practiceEnded: function() {
+                    playMorse('.-.-.', function() {
+                        app.stopAll()
+                    })
+                    
                     app.practice_status = 'ended'
-                    app.stopAll()
                     
                     app.show_answers = true
                 },
